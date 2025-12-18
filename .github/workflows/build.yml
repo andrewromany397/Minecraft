@@ -1,0 +1,40 @@
+name: Build APK
+
+on:
+  push:
+    branches:
+      - buildozer-apk-workflow
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Install Dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y build-essential libffi-dev python3-pip python3-setuptools python3-venv
+        pip install --upgrade pip
+        pip install buildozer
+
+    - name: Build APK
+      run: |
+        buildozer init
+        buildozer -v android debug
+
+    - name: Upload APK
+      uses: actions/upload-artifact@v3
+      with:
+        name: apk-file
+        path: bin/*.apk
