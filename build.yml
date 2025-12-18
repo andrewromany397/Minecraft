@@ -1,0 +1,19 @@
+name=build.yml
+app:
+  title: "Minecraft"
+  package_name: "com.andrewromany397.minecraft"
+  source_dir: "."
+  main_script: "minecraft.py"
+  requirements:
+    - "python3"
+    - "json"
+    - "pygame"
+    - "ursina"
+  orientation: "landscape"
+  permissions:
+    - "VIBRATE"
+    - "INTERNET"
+  icon: "./icon.png"
+distribution:
+  name: "build-and-package"
+  command: "pbuild package .apk"
