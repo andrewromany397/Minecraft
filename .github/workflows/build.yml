@@ -16,16 +16,24 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Setup Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.9'
+    - name: Debug Information
+      run: |
+        echo "Debugging base environment..."
+        uname -a
+        lsb_release -a || cat /etc/os-release
+        echo "Checking if git is pre-installed..."
+        which git || echo "Git is not pre-installed!"
 
     - name: Install Dependencies
       run: |
         sudo apt update
-        sudo apt install -y build-essential libffi-dev python3-pip python3-setuptools python3-venv default-jdk wget unzip git
-        git --version  # Ensure git is correctly installed
+        # Explicitly ensure 'git' is installed
+        echo "Installing git..."
+        sudo apt install -y git
+        echo "Verifying git installation..."
+        git --version || (echo "Git install failed!" && exit 1)
+        echo "Installing other dependencies..."
+        sudo apt install -y build-essential libffi-dev python3-pip python3-setuptools python3-venv default-jdk wget unzip
         pip install --upgrade pip
         pip install buildozer cython
         # Install Android SDK
