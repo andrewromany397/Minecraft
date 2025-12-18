@@ -16,25 +16,24 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Debug Information
-      run: |
-        echo "Debugging environment..."
-        uname -a
-        lsb_release -a || cat /etc/os-release
-        echo "Checking if git is pre-installed..."
-        which git || echo "Git is not pre-installed!"
-
     - name: Install Dependencies
       run: |
         sudo apt update
-        # Install all required dependencies
         echo "Installing system dependencies..."
         sudo apt install -y build-essential libffi-dev python3-pip python3-setuptools python3-venv default-jdk wget unzip git
-        echo "Installing Cython and Buildozer using pip..."
         pip install --upgrade pip
+        echo "Installing Buildozer and Cython..."
         pip install buildozer cython
         echo "Verifying Buildozer installation..."
-        which buildozer || (echo "Buildozer installation failed!" && exit 1)
+        ls ~/.local/bin
+        which buildozer || echo "Buildozer executable path is not in PATH"
+
+        # Set the PATH explicitly
+        export PATH=$HOME/.local/bin:$PATH
+        echo "Updated PATH: $PATH"
+        which buildozer || (echo "Buildozer still not found in PATH" && exit 1)
+        buildozer --version || echo "Buildozer installed but not functional"
+
         # Install Android SDK
         echo "Installing Android SDK..."
         wget https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip -O commandlinetools.zip
