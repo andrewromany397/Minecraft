@@ -25,6 +25,7 @@ jobs:
       run: |
         sudo apt update
         sudo apt install -y build-essential libffi-dev python3-pip python3-setuptools python3-venv default-jdk wget unzip git
+        git --version  # Ensure git is correctly installed
         pip install --upgrade pip
         pip install buildozer cython
         # Install Android SDK
