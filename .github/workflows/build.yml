@@ -24,7 +24,7 @@ jobs:
     - name: Install Dependencies
       run: |
         sudo apt update
-        sudo apt install -y build-essential libffi-dev python3-pip python3-setuptools python3-venv default-jdk wget unzip
+        sudo apt install -y build-essential libffi-dev python3-pip python3-setuptools python3-venv default-jdk wget unzip git
         pip install --upgrade pip
         pip install buildozer cython
         # Install Android SDK
